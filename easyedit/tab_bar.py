@@ -40,6 +40,3 @@ class TabBar(QTabWidget):
             pass
 
         self.removeTab(index)
-
-        if self.count() == 0:
-            QApplication.quit()
