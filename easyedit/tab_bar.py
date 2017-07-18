@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QApplication, QTabWidget
+from PyQt5.QtWidgets import QTabWidget
 
 from easyedit.text_area import TextArea
 
