@@ -65,7 +65,7 @@ class Editor(QMainWindow):
         font = QFontDialog().getFont()[0]
 
         self.setFont(font)
-        self.tab_bar.get_current_tab().setFont(font)
+        self.tab_bar.get_current_tab().update_font(font)
 
     def create_text_edit(self):
         self.setCentralWidget(self.text_edit)
