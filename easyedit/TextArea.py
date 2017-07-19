@@ -11,6 +11,8 @@ class TextArea(QTextEdit):
 
         self.setAcceptRichText(False)
 
+        self.filePath = "Untitled"
+
         self.updateFont(self.font())
 
         self.cursorPositionChanged.connect(self.cursorMoved)

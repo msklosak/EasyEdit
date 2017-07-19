@@ -12,7 +12,7 @@ from easyedit.TabBar import TabBar
 class Editor(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.readSettings()
+        self.readWindowSettings()
 
         self.aboutDialog = AboutDialog()
 
@@ -20,6 +20,7 @@ class Editor(QMainWindow):
         self.setMenuBar(self.menuBar)
 
         self.tabBar = TabBar()
+        self.readTabBarSettings()
         self.setCentralWidget(self.tabBar)
 
         self.statusBar = self.statusBar()
@@ -30,7 +31,7 @@ class Editor(QMainWindow):
 
         self.show()
 
-    def readSettings(self):
+    def readWindowSettings(self):
         settings = QSettings("msklosak", "EasyEdit")
 
         settings.beginGroup("Editor")
@@ -38,7 +39,7 @@ class Editor(QMainWindow):
         self.move(settings.value("pos", QPoint(0, 0)))
         settings.endGroup()
 
-    def writeSettings(self):
+    def writeWindowSettings(self):
         settings = QSettings("msklosak", "EasyEdit")
 
         settings.beginGroup("Editor")
@@ -46,8 +47,37 @@ class Editor(QMainWindow):
         settings.setValue("pos", self.pos())
         settings.endGroup()
 
+    def readTabBarSettings(self):
+        settings = QSettings("msklosak", "EasyEdit")
+        settings.beginGroup("Tab Bar")
+
+        savedTabs = settings.value("openedTabs", list("Untitled"))
+        if savedTabs is None:
+            self.tabBar.openTab()
+        else:
+            for fileName in savedTabs:
+                if fileName != "Untitled":
+                    self.tabBar.openTab()
+                    self.openFile(fileName)
+
+        settings.endGroup()
+
+    def writeTabBarSettings(self):
+        openTabs = []
+
+        currentTab = 0
+        while currentTab < self.tabBar.count():
+            openTabs.append(self.tabBar.widget(currentTab).filePath)
+            currentTab += 1
+
+        settings = QSettings("msklosak", "EasyEdit")
+        settings.beginGroup("Tab Bar")
+        settings.setValue("openedTabs", openTabs)
+        settings.endGroup()
+
     def closeEvent(self, event):
-        self.writeSettings()
+        self.writeTabBarSettings()
+        self.writeWindowSettings()
 
         while self.tabBar.count() > 0:
             self.tabBar.closeTab(0)
@@ -55,7 +85,7 @@ class Editor(QMainWindow):
     def configureSignals(self):
         # FILE TAB
         self.menuBar.newFile.connect(self.tabBar.openTab)
-        self.menuBar.openFile.connect(self.openFile)
+        self.menuBar.openFile.connect(self.openFileDialog)
         self.menuBar.saveFile.connect(self.saveFile)
         self.menuBar.saveFileAs.connect(self.saveFile)
 
@@ -95,7 +125,17 @@ class Editor(QMainWindow):
     def createStatusBar(self):
         self.updateStatusBarText()
 
-    def openFile(self):
+    def openFile(self, fileName):
+        with open(fileName, 'r') as file:
+            self.tabBar.currentWidget().setText(file.read())
+
+        shortened_file_name = split(fileName)[1]
+
+        self.tabBar.currentWidget().filePath = fileName
+        self.tabBar.setTabText(self.tabBar.currentIndex(), shortened_file_name)
+        self.updateWindowTitle()
+
+    def openFileDialog(self):
         file_name = QFileDialog.getOpenFileName(self, "Open File")[0]
 
         if file_name != "":
@@ -104,13 +144,13 @@ class Editor(QMainWindow):
 
             shortened_file_name = split(file_name)[1]
 
-            self.tabBar.currentFilePath = file_name
+            self.tabBar.currentWidget().filePath = file_name
             self.tabBar.setTabText(self.tabBar.currentIndex(), shortened_file_name)
             self.updateWindowTitle()
 
     def saveFile(self):
-        if self.tabBar.currentFilePath != "Untitled":
-            file_name = self.tabBar.currentFilePath
+        if self.tabBar.currentWidget().filePath != "Untitled":
+            file_name = self.tabBar.currentWidget().filePath
         else:
             file_name = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
 
