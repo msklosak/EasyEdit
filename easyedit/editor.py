@@ -84,21 +84,24 @@ class Editor(QMainWindow):
     def open_file(self):
         file_name = QFileDialog.getOpenFileName(self, "Open File")[0]
 
-        if file_name:
+        if file_name != "":
             with open(file_name, 'r') as file:
                 self.tab_bar.get_current_tab().setText(file.read())
 
             self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
+            self.update_window_title(file_name)
 
     def save_file(self):
         if self.tab_bar.tabText(self.tab_bar.currentIndex()) != "Untitled":
             file_name = self.tab_bar.tabText(self.tab_bar.currentIndex())
         else:
             file_name = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
-            self.update_window_title(file_name)
-            self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
 
-        if file_name:
+            if file_name != "":
+                self.update_window_title(file_name)
+                self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
+
+        if file_name != "":
             text = self.tab_bar.get_current_tab().toPlainText()
 
             with open(file_name, 'w') as file:
