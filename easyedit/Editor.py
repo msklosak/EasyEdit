@@ -1,6 +1,7 @@
 import sys
 from os.path import split
 
+from PyQt5.QtCore import QSettings, QPoint, QSize
 from PyQt5.QtWidgets import QApplication, QFileDialog, QFontDialog, QMainWindow
 
 from easyedit.AboutDialog import AboutDialog
@@ -11,8 +12,7 @@ from easyedit.TabBar import TabBar
 class Editor(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Untitled - EasyEdit")
-        self.resize(600, 800)
+        self.readSettings()
 
         self.aboutDialog = AboutDialog()
 
@@ -30,7 +30,25 @@ class Editor(QMainWindow):
 
         self.show()
 
+    def readSettings(self):
+        settings = QSettings("msklosak", "EasyEdit")
+
+        settings.beginGroup("Editor")
+        self.resize(settings.value("size", QSize(600, 800)))
+        self.move(settings.value("pos", QPoint(0, 0)))
+        settings.endGroup()
+
+    def writeSettings(self):
+        settings = QSettings("msklosak", "EasyEdit")
+
+        settings.beginGroup("Editor")
+        settings.setValue("size", self.size())
+        settings.setValue("pos", self.pos())
+        settings.endGroup()
+
     def closeEvent(self, event):
+        self.writeSettings()
+
         while self.tabBar.count() > 0:
             self.tabBar.closeTab(0)
 
