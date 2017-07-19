@@ -37,6 +37,7 @@ class Editor(QMainWindow):
         settings.beginGroup("Editor")
         self.resize(settings.value("size", QSize(600, 800)))
         self.move(settings.value("pos", QPoint(0, 0)))
+        self.setFont(settings.value("font", self.font()))
         settings.endGroup()
 
     def writeWindowSettings(self):
@@ -45,6 +46,7 @@ class Editor(QMainWindow):
         settings.beginGroup("Editor")
         settings.setValue("size", self.size())
         settings.setValue("pos", self.pos())
+        settings.setValue("font", self.font())
         settings.endGroup()
 
     def readTabBarSettings(self):
