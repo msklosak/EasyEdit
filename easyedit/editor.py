@@ -84,7 +84,7 @@ class Editor(QMainWindow):
                 self.tab_bar.get_current_tab().setText(file.read())
 
             self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
-            self.update_window_title(file_name)
+            self.update_window_title()
 
     def save_file(self):
         if self.tab_bar.tabText(self.tab_bar.currentIndex()) != "Untitled":
@@ -93,8 +93,8 @@ class Editor(QMainWindow):
             file_name = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
 
             if file_name != "":
-                self.update_window_title(file_name)
                 self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
+                self.update_window_title()
 
         if file_name != "":
             text = self.tab_bar.get_current_tab().toPlainText()
@@ -105,11 +105,11 @@ class Editor(QMainWindow):
     def tab_changed(self):
         self.tab_bar.currentWidget().cursor_position_changed.connect(self.update_status_bar_text)
 
-        self.update_window_title(self.tab_bar.tabText(self.tab_bar.currentIndex()))
+        self.update_window_title()
         self.update_status_bar_text()
 
-    def update_window_title(self, new_title):
-        self.setWindowTitle(new_title + " - EasyEdit")
+    def update_window_title(self):
+        self.setWindowTitle(self.tab_bar.tabText(self.tab_bar.currentIndex()) + " - EasyEdit")
 
     def update_status_bar_text(self):
         self.status_bar.showMessage("Line {}, Column {}".format(self.tab_bar.currentWidget().textCursor().blockNumber(),
