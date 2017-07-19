@@ -42,11 +42,11 @@ class Editor(QMainWindow):
         self.menu_bar.save_file_as.connect(self.save_file)
 
         # EDIT TAB
-        self.menu_bar.undo_edit.connect(self.tab_bar.get_current_tab().undo)
-        self.menu_bar.redo_edit.connect(self.tab_bar.get_current_tab().redo)
-        self.menu_bar.cut_text.connect(self.tab_bar.get_current_tab().cut)
-        self.menu_bar.copy_text.connect(self.tab_bar.get_current_tab().copy)
-        self.menu_bar.paste_text.connect(self.tab_bar.get_current_tab().paste)
+        self.menu_bar.undo_edit.connect(self.tab_bar.currentWidget().undo)
+        self.menu_bar.redo_edit.connect(self.tab_bar.currentWidget().redo)
+        self.menu_bar.cut_text.connect(self.tab_bar.currentWidget().cut)
+        self.menu_bar.copy_text.connect(self.tab_bar.currentWidget().copy)
+        self.menu_bar.paste_text.connect(self.tab_bar.currentWidget().paste)
 
         # SETTINGS TAB
         self.menu_bar.change_font.connect(self.change_font)
@@ -82,7 +82,7 @@ class Editor(QMainWindow):
 
         if file_name != "":
             with open(file_name, 'r') as file:
-                self.tab_bar.get_current_tab().setText(file.read())
+                self.tab_bar.currentWidget().setText(file.read())
 
             shortened_file_name = split(file_name)[1]
 
@@ -103,7 +103,7 @@ class Editor(QMainWindow):
                 self.update_window_title()
 
         if file_name != "":
-            text = self.tab_bar.get_current_tab().toPlainText()
+            text = self.tab_bar.currentWidget().toPlainText()
 
             with open(file_name, 'w') as file:
                 file.write(text)

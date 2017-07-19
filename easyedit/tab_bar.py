@@ -16,9 +16,6 @@ class TabBar(QTabWidget):
 
         self.tabCloseRequested.connect(self.close_tab)
 
-    def get_current_tab(self):
-        return self.currentWidget()
-
     def open_tab(self):
         text_widget = TextArea()
 
