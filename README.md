@@ -5,7 +5,7 @@ EasyEdit
 
 ## Description
 EasyEdit is a cross-platform text editor developed in Python using PyQt5. EasyEdit aims to be simple and easy to use by
-providing a clean interface and
+providing a clean interface and having all of the features commonly found in a modern text editor.
 
 ## Features
  * Proper tab support
