@@ -10,6 +10,8 @@ class TabBar(QTabWidget):
         self.setMovable(True)
         self.setTabsClosable(True)
 
+        self.current_file_path = "Untitled"
+
         self.open_tab()
 
         self.tabCloseRequested.connect(self.close_tab)
