@@ -85,14 +85,10 @@ class Editor(QMainWindow):
         file_name = QFileDialog.getOpenFileName(self, "Open File")[0]
 
         if file_name:
-            file = open(file_name, 'r')
-
-            with file:
+            with open(file_name, 'r') as file:
                 self.tab_bar.get_current_tab().setText(file.read())
 
             self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
-
-            file.close()
 
     def save_file(self):
         if self.tab_bar.tabText(self.tab_bar.currentIndex()) != "Untitled":
@@ -103,12 +99,10 @@ class Editor(QMainWindow):
             self.tab_bar.setTabText(self.tab_bar.currentIndex(), file_name)
 
         if file_name:
-            file = open(file_name, 'w')
-
             text = self.tab_bar.get_current_tab().toPlainText()
 
-            file.write(text)
-            file.close()
+            with open(file_name, 'w') as file:
+                file.write(text)
 
     def update_window_title(self, new_title):
         self.setWindowTitle(new_title + " - EasyEdit")
