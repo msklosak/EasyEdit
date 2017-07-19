@@ -102,7 +102,7 @@ class Editor(QMainWindow):
         self.menuBar.pasteText.connect(self.tabBar.currentWidget().paste)
 
         # SETTINGS TAB
-        self.menuBar.changeFont.connect(self.change_font)
+        self.menuBar.changeFont.connect(self.changeFont)
 
         # HELP TAB
         self.menuBar.aboutDialog.connect(lambda: self.aboutDialog.exec_())
@@ -113,19 +113,14 @@ class Editor(QMainWindow):
         # TEXT AREA
         self.tabBar.currentWidget().cursorMoved.connect(self.updateStatusBarText)
 
-    def change_font(self):
+    def changeFont(self):
         font = QFontDialog().getFont()[0]
 
         self.setFont(font)
 
-        current_tab = 0
-        while current_tab > self.tabBar.count():
-            self.tabBar.widget(current_tab).updateFont(font)
-
-    def create_text_edit(self):
-        self.setCentralWidget(self.text_edit)
-
-        self.text_edit.textChanged.connect(self.set_unsaved_changes)
+        currentTab = 0
+        while currentTab > self.tabBar.count():
+            self.tabBar.widget(currentTab).updateFont(font)
 
     def createStatusBar(self):
         self.updateStatusBarText()
@@ -134,41 +129,41 @@ class Editor(QMainWindow):
         with open(fileName, 'r') as file:
             self.tabBar.currentWidget().setText(file.read())
 
-        shortened_file_name = split(fileName)[1]
+        shortenedFileName = split(fileName)[1]
 
         self.tabBar.currentWidget().filePath = fileName
-        self.tabBar.setTabText(self.tabBar.currentIndex(), shortened_file_name)
+        self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
         self.updateWindowTitle()
 
     def openFileDialog(self):
-        file_name = QFileDialog.getOpenFileName(self, "Open File")[0]
+        fileName = QFileDialog.getOpenFileName(self, "Open File")[0]
 
-        if file_name != "":
-            with open(file_name, 'r') as file:
+        if fileName != "":
+            with open(fileName, 'r') as file:
                 self.tabBar.currentWidget().setText(file.read())
 
-            shortened_file_name = split(file_name)[1]
+                shortenedFileName = split(fileName)[1]
 
-            self.tabBar.currentWidget().filePath = file_name
-            self.tabBar.setTabText(self.tabBar.currentIndex(), shortened_file_name)
+            self.tabBar.currentWidget().filePath = fileName
+            self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
             self.updateWindowTitle()
 
     def saveFile(self):
         if self.tabBar.currentWidget().filePath != "Untitled":
-            file_name = self.tabBar.currentWidget().filePath
+            fileName = self.tabBar.currentWidget().filePath
         else:
-            file_name = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
+            fileName = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
 
-            if file_name != "":
-                shortened_file_name = split(file_name)[1]
+            if fileName != "":
+                shortenedFileName = split(fileName)[1]
 
-                self.tabBar.setTabText(self.tabBar.currentIndex(), shortened_file_name)
+                self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
                 self.updateWindowTitle()
 
-        if file_name != "":
+        if fileName != "":
             text = self.tabBar.currentWidget().toPlainText()
 
-            with open(file_name, 'w') as file:
+            with open(fileName, 'w') as file:
                 file.write(text)
 
     def tabChanged(self):
