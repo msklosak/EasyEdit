@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QTabWidget
+from PyQt5.QtWidgets import QApplication, QTabWidget
 
 from easyedit.text_area import TextArea
 
@@ -40,3 +40,6 @@ class TabBar(QTabWidget):
             pass
 
         self.removeTab(index)
+
+        if self.count() == 0:
+            QApplication.quit()

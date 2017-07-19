@@ -34,8 +34,6 @@ class Editor(QMainWindow):
         while self.tab_bar.count() > 0:
             self.tab_bar.close_tab(0)
 
-        QApplication.quit()
-
     def configure_signals(self):
         # FILE TAB
         self.menu_bar.new_file.connect(self.tab_bar.open_tab)
