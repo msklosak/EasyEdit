@@ -54,7 +54,10 @@ class Editor(QMainWindow):
         self.menu_bar.about_dialog.connect(lambda: self.about_dialog.exec_())
 
         # TAB BAR
-        self.tab_bar.tab_changed.connect(self.update_window_title)
+        self.tab_bar.tab_changed.connect(self.tab_changed)
+
+        # TEXT AREA
+        self.tab_bar.currentWidget().cursor_position_changed.connect(self.update_status_bar_text)
 
     def change_font(self):
         font = QFontDialog().getFont()[0]
@@ -71,7 +74,7 @@ class Editor(QMainWindow):
         self.text_edit.textChanged.connect(self.set_unsaved_changes)
 
     def create_status_bar(self):
-        pass
+        self.update_status_bar_text()
 
     def open_file(self):
         file_name = QFileDialog.getOpenFileName(self, "Open File")[0]
@@ -99,8 +102,18 @@ class Editor(QMainWindow):
             with open(file_name, 'w') as file:
                 file.write(text)
 
+    def tab_changed(self):
+        self.tab_bar.currentWidget().cursor_position_changed.connect(self.update_status_bar_text)
+
+        self.update_window_title(self.tab_bar.tabText(self.tab_bar.currentIndex()))
+        self.update_status_bar_text()
+
     def update_window_title(self, new_title):
         self.setWindowTitle(new_title + " - EasyEdit")
+
+    def update_status_bar_text(self):
+        self.status_bar.showMessage("Line {}, Column {}".format(self.tab_bar.currentWidget().textCursor().blockNumber(),
+                                                                self.tab_bar.currentWidget().textCursor().columnNumber()))
 
 
 if __name__ == '__main__':
