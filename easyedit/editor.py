@@ -12,7 +12,6 @@ class Editor(QMainWindow):
         super().__init__()
         self.setWindowTitle("Untitled - EasyEdit")
         self.resize(600, 800)
-        self.center_window()
 
         self.about_dialog = AboutDialog()
 
@@ -56,14 +55,6 @@ class Editor(QMainWindow):
 
         # TAB BAR
         self.tab_bar.tab_changed.connect(self.update_window_title)
-
-    def center_window(self):
-        frame_geometry = self.frameGeometry()
-        screen = QApplication.desktop().screenNumber(QApplication.desktop().cursor().pos())
-        center_point = QApplication.desktop().screenGeometry(screen).center()
-        frame_geometry.moveCenter(center_point)
-
-        self.move(frame_geometry.topLeft())
 
     def change_font(self):
         font = QFontDialog().getFont()[0]
