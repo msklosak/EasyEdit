@@ -60,6 +60,8 @@ class Editor(QMainWindow):
                     self.tabBar.openTab()
                     self.openFile(fileName)
 
+        self.tabBar.setCurrentIndex(int(settings.value("currentTab", 0)))
+
         settings.endGroup()
 
     def writeTabBarSettings(self):
@@ -73,6 +75,7 @@ class Editor(QMainWindow):
         settings = QSettings("msklosak", "EasyEdit")
         settings.beginGroup("Tab Bar")
         settings.setValue("openedTabs", openTabs)
+        settings.setValue("currentTab", self.tabBar.currentIndex())
         settings.endGroup()
 
     def closeEvent(self, event):
