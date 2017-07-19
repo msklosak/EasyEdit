@@ -54,7 +54,7 @@ class Editor(QMainWindow):
         self.menu_bar.about_dialog.connect(lambda: self.about_dialog.exec_())
 
         # TAB BAR
-        self.tab_bar.tab_changed.connect(self.tab_changed)
+        self.tab_bar.currentChanged.connect(self.tab_changed)
 
         # TEXT AREA
         self.tab_bar.currentWidget().cursor_position_changed.connect(self.update_status_bar_text)
