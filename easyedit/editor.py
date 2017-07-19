@@ -118,8 +118,10 @@ class Editor(QMainWindow):
         self.setWindowTitle(self.tab_bar.tabText(self.tab_bar.currentIndex()) + " - EasyEdit")
 
     def update_status_bar_text(self):
-        self.status_bar.showMessage("Line {}, Column {}".format(self.tab_bar.currentWidget().textCursor().blockNumber(),
-                                                                self.tab_bar.currentWidget().textCursor().columnNumber()))
+        cursor_line = self.tab_bar.currentWidget().textCursor().blockNumber()
+        cursor_column = self.tab_bar.currentWidget().textCursor().columnNumber()
+
+        self.status_bar.showMessage("Line {}, Column {}".format(cursor_line, cursor_column))
 
 
 if __name__ == '__main__':
