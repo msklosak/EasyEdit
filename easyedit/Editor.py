@@ -165,10 +165,11 @@ class Editor(QMainWindow):
                 file.write(text)
 
     def tabChanged(self):
-        self.tabBar.currentWidget().cursorMoved.connect(self.updateStatusBarText)
+        if self.tabBar.count() > 1:
+            self.tabBar.currentWidget().cursorMoved.connect(self.updateStatusBarText)
 
-        self.updateWindowTitle()
-        self.updateStatusBarText()
+            self.updateWindowTitle()
+            self.updateStatusBarText()
 
     def updateWindowTitle(self):
         self.setWindowTitle(self.tabBar.tabText(self.tabBar.currentIndex()) + " - EasyEdit")
