@@ -105,7 +105,7 @@ class Editor(QMainWindow):
         self.menuBar.changeFont.connect(self.changeFont)
 
         # HELP TAB
-        self.menuBar.aboutDialog.connect(lambda: self.aboutDialog.exec_())
+        self.menuBar.openAboutDialog.connect(lambda: self.aboutDialog.exec_())
 
         # TAB BAR
         self.tabBar.currentChanged.connect(self.tabChanged)

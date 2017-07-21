@@ -17,7 +17,7 @@ class MenuBar(QMenuBar):
 
     changeFont = pyqtSignal()
 
-    aboutDialog = pyqtSignal()
+    openAboutDialog = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -109,7 +109,7 @@ class MenuBar(QMenuBar):
         aboutDialogAction = QAction('About', self)
         aboutDialogAction.setStatusTip('About the application.')
         aboutDialogAction.setShortcut('CTRL+H')
-        aboutDialogAction.triggered.connect(lambda: self.aboutDialog.emit())
+        aboutDialogAction.triggered.connect(lambda: self.openAboutDialog.emit())
 
         self.helpMenu = self.addMenu("Help")
         self.helpMenu.addAction(aboutDialogAction)
