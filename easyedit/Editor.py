@@ -24,8 +24,7 @@ class Editor(QMainWindow):
         self.setCentralWidget(self.tabBar)
 
         self.statusBar = self.statusBar()
-
-        self.createStatusBar()
+        self.updateStatusBarText()
 
         self.configureSignals()
 
@@ -123,9 +122,6 @@ class Editor(QMainWindow):
         currentTab = 0
         while currentTab > self.tabBar.count():
             self.tabBar.widget(currentTab).updateFont(font)
-
-    def createStatusBar(self):
-        self.updateStatusBarText()
 
     def openFile(self, fileName):
         with open(fileName, 'r') as file:
