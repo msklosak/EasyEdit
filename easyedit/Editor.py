@@ -52,7 +52,7 @@ class Editor(QMainWindow):
         settings = QSettings("msklosak", "EasyEdit")
         settings.beginGroup("Tab Bar")
 
-        savedTabs = settings.value("openedTabs", list("Untitled"))
+        savedTabs = settings.value("openedTabs")
         if savedTabs is None:
             self.tabBar.openTab()
         else:
