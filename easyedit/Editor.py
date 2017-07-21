@@ -64,6 +64,8 @@ class Editor(QMainWindow):
 
         self.tabBar.setCurrentIndex(int(settings.value("currentTab", 0)))
 
+        self.updateWindowTitle()
+
         settings.endGroup()
 
     def writeTabBarSettings(self):
