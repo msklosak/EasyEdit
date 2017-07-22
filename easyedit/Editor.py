@@ -178,9 +178,13 @@ class Editor(QMainWindow):
         self.statusBar.showMessage("Line {}, Column {}".format(line, column))
 
 
-if __name__ == '__main__':
+def main():
     application = QApplication(sys.argv)
 
-    editor = Editor()
+    Editor()
 
     sys.exit(application.exec_())
+
+
+if __name__ == '__main__':
+    main()
