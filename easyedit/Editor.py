@@ -1,7 +1,7 @@
 import sys
 from os.path import split
 
-from PyQt5.QtCore import QSettings, QPoint, QSize
+from PyQt5.QtCore import QSettings, QPoint, QSize, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QFileDialog, QFontDialog, QMainWindow
 
 from easyedit.AboutDialog import AboutDialog
@@ -23,8 +23,10 @@ class Editor(QMainWindow):
         self.readTabBarSettings()
         self.setCentralWidget(self.tabBar)
 
+        self.changeFont(self.font())
+
         self.statusBar = self.statusBar()
-        self.updateStatusBarText()
+        # self.updateStatusBarText()
 
         self.configureSignals()
 
@@ -103,7 +105,7 @@ class Editor(QMainWindow):
         self.menuBar.pasteText.connect(self.tabBar.currentWidget().paste)
 
         # SETTINGS TAB
-        self.menuBar.changeFont.connect(self.changeFont)
+        self.menuBar.changeFont.connect(self.changeFontDialog)
 
         # HELP TAB
         self.menuBar.openAboutDialog.connect(lambda: self.aboutDialog.exec_())
@@ -112,16 +114,20 @@ class Editor(QMainWindow):
         self.tabBar.currentChanged.connect(self.tabChanged)
 
         # TEXT AREA
-        self.tabBar.currentWidget().cursorMoved.connect(self.updateStatusBarText)
+        # self.tabBar.currentWidget().cursorPositionChanged.connect(self.updateStatusBarText)
 
-    def changeFont(self):
-        font = QFontDialog().getFont()[0]
-
-        self.setFont(font)
+    def changeFont(self, newFont):
+        self.setFont(newFont)
 
         currentTab = 0
-        while currentTab > self.tabBar.count():
-            self.tabBar.widget(currentTab).updateFont(font)
+        while currentTab < self.tabBar.count():
+            self.tabBar.widget(currentTab).updateFont(newFont)
+            currentTab += 1
+
+    def changeFontDialog(self):
+        font = QFontDialog().getFont()[0]
+
+        self.changeFont(font)
 
     def openFile(self, fileName):
         with open(fileName, 'r') as file:
@@ -131,20 +137,14 @@ class Editor(QMainWindow):
 
         self.tabBar.currentWidget().filePath = fileName
         self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
+        self.tabBar.currentWidget().changeMarginWidth()
         self.updateWindowTitle()
 
     def openFileDialog(self):
         fileName = QFileDialog.getOpenFileName(self, "Open File")[0]
 
         if fileName != "":
-            with open(fileName, 'r') as file:
-                self.tabBar.currentWidget().setText(file.read())
-
-                shortenedFileName = split(fileName)[1]
-
-            self.tabBar.currentWidget().filePath = fileName
-            self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
-            self.updateWindowTitle()
+            self.openFile(fileName)
 
     def saveFile(self):
         if self.tabBar.currentWidget().filePath != "Untitled":
@@ -159,26 +159,23 @@ class Editor(QMainWindow):
                 self.updateWindowTitle()
 
         if fileName != "":
-            text = self.tabBar.currentWidget().toPlainText()
+            text = self.tabBar.currentWidget().text()
 
             with open(fileName, 'w') as file:
                 file.write(text)
 
     def tabChanged(self):
         if self.tabBar.count() > 1:
-            self.tabBar.currentWidget().cursorMoved.connect(self.updateStatusBarText)
+            # self.tabBar.currentWidget().cursorPositionChanged.connect(self.updateStatusBarText)
 
             self.updateWindowTitle()
-            self.updateStatusBarText()
 
     def updateWindowTitle(self):
         self.setWindowTitle(self.tabBar.tabText(self.tabBar.currentIndex()) + " - EasyEdit")
 
-    def updateStatusBarText(self):
-        cursorLine = self.tabBar.currentWidget().textCursor().blockNumber()
-        cursorColumn = self.tabBar.currentWidget().textCursor().columnNumber()
-
-        self.statusBar.showMessage("Line {}, Column {}".format(cursorLine, cursorColumn))
+    @pyqtSlot(int, int)
+    def updateStatusBarText(self, line, column):
+        self.statusBar.showMessage("Line {}, Column {}".format(line, column))
 
 
 if __name__ == '__main__':

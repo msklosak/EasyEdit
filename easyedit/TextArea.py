@@ -1,25 +1,26 @@
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtGui import QFontMetrics
-from PyQt5.QtWidgets import QTextEdit
+from PyQt5.Qsci import QsciScintilla, QsciLexerPython
 
 
-class TextArea(QTextEdit):
-    cursorMoved = pyqtSignal()
-
+class TextArea(QsciScintilla):
     def __init__(self):
         super().__init__()
 
-        self.setAcceptRichText(False)
-
         self.filePath = "Untitled"
 
-        self.updateFont(self.font())
+        self.pythonLexer = QsciLexerPython(self)
+        self.setLexer(self.pythonLexer)
+        self.setMargins(1)
+        self.setMarginType(0, QsciScintilla.NumberMargin)
+        self.setUtf8(True)
+        self.setIndentationsUseTabs(False)
+        self.setTabWidth(4)
+        self.setIndentationGuides(False)
+        self.setAutoIndent(True)
 
-        self.cursorPositionChanged.connect(self.cursorMoved)
+    def changeMarginWidth(self):
+        numLines = self.lines()
+
+        self.setMarginWidth(0, "00" * len(str(numLines)))
 
     def updateFont(self, newFont):
-        self.setFont(newFont)
-
-        fontMetrics = QFontMetrics(newFont)
-
-        self.setTabStopWidth(fontMetrics.width("    "))
+        self.lexer().setFont(newFont)
