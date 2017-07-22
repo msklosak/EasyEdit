@@ -144,15 +144,7 @@ class Editor(QMainWindow):
         fileName = QFileDialog.getOpenFileName(self, "Open File")[0]
 
         if fileName != "":
-            with open(fileName, 'r') as file:
-                self.tabBar.currentWidget().setText(file.read())
-
-                shortenedFileName = split(fileName)[1]
-
-            self.tabBar.currentWidget().filePath = fileName
-            self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
-            self.tabBar.currentWidget().changeMarginWidth()
-            self.updateWindowTitle()
+            self.openFile(fileName)
 
     def saveFile(self):
         if self.tabBar.currentWidget().filePath != "Untitled":
