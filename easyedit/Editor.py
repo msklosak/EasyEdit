@@ -137,6 +137,7 @@ class Editor(QMainWindow):
 
         self.tabBar.currentWidget().filePath = fileName
         self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
+        self.tabBar.currentWidget().changeMarginWidth()
         self.updateWindowTitle()
 
     def openFileDialog(self):
@@ -150,6 +151,7 @@ class Editor(QMainWindow):
 
             self.tabBar.currentWidget().filePath = fileName
             self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
+            self.tabBar.currentWidget().changeMarginWidth()
             self.updateWindowTitle()
 
     def saveFile(self):
