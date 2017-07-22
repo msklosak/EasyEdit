@@ -72,10 +72,8 @@ class Editor(QMainWindow):
     def writeTabBarSettings(self):
         openTabs = []
 
-        currentTab = 0
-        while currentTab < self.tabBar.count():
-            openTabs.append(self.tabBar.widget(currentTab).filePath)
-            currentTab += 1
+        for i in range(self.tabBar.count()):
+            openTabs.append(self.tabBar.widget(i).filePath)
 
         settings = QSettings("msklosak", "EasyEdit")
         settings.beginGroup("Tab Bar")
@@ -119,10 +117,8 @@ class Editor(QMainWindow):
     def changeFont(self, newFont):
         self.setFont(newFont)
 
-        currentTab = 0
-        while currentTab < self.tabBar.count():
-            self.tabBar.widget(currentTab).updateFont(newFont)
-            currentTab += 1
+        for i in range(self.tabBar.count()):
+            self.tabBar.widget(i).updateFont(newFont)
 
     def changeFontDialog(self):
         font = QFontDialog().getFont()[0]
