@@ -1,16 +1,17 @@
 EasyEdit
 ========
 
-![EasyEdit Image](http://i.imgur.com/a9xtDs9.png/)
+![EasyEdit Image](http://i.imgur.com/66ZDryI.png)
 
 ## Description
-EasyEdit is a cross-platform text editor developed in Python using PyQt5. EasyEdit aims to be simple and easy to use by
-providing a clean interface and having all of the features commonly found in a modern text editor.
+EasyEdit is a cross-platform text and code editor developed in Python using PyQt5. EasyEdit aims to be simple and easy
+to use by providing a clean interface and having all of the features commonly found in modern text and code editors.
 
 ## Features
  * Proper tab support
  * Keyboard shortcuts
  * Session persistence
+ * Syntax highlighting
  * More coming...
 
 ## Keybindings
