@@ -11,7 +11,6 @@ class TextArea(QsciScintilla):
         self.setLexer(self.pythonLexer)
         self.setMargins(1)
         self.setMarginType(0, QsciScintilla.NumberMargin)
-        # self.setMarginWidth(0, "0000")
         self.setUtf8(True)
         self.setIndentationsUseTabs(False)
         self.setTabWidth(4)
