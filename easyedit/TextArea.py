@@ -19,7 +19,6 @@ class TextArea(QsciScintilla):
 
     def changeMarginWidth(self):
         numLines = self.lines()
-        print(len(str(numLines)))
 
         self.setMarginWidth(0, "00" * len(str(numLines)))
 
