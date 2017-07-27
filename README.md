@@ -14,6 +14,16 @@ to use by providing a clean interface and having all of the features commonly fo
  * Syntax highlighting
  * More coming...
 
+## Try EasyEdit
+
+To try EasyEdit, make sure you have Python 3 and the required dependencies (PyQt5, QScintilla) and run the following commands:
+
+```
+git clone https://github.com/msklosak/EasyEdit.git
+cd EasyEdit
+python -m easyedit.Editor
+```
+
 ## Keybindings
 
  * <kbd>Ctrl</kbd> + <kbd>N</kbd>
