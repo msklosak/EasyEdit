@@ -24,7 +24,7 @@ setup(
     packages=['easyedit', 'tests'],
     entry_points={
         'console_scripts': [
-            'EasyEdit=easyedit.editor:main'
+            'EasyEdit=easyedit.Editor:main'
         ]
     },
     install_requires=requirements,
