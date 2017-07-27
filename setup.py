@@ -1,7 +1,8 @@
 from setuptools import setup
 
 requirements = [
-    'pyqt5'
+    'pyqt5',
+    'qscintilla'
 ]
 
 test_requirements = [
