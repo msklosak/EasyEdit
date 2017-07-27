@@ -4,9 +4,9 @@ from os.path import split
 from PyQt5.QtCore import QSettings, QPoint, QSize, pyqtSlot
 from PyQt5.QtWidgets import QApplication, QFileDialog, QFontDialog, QMainWindow
 
-from easyedit.AboutDialog import AboutDialog
-from easyedit.MenuBar import MenuBar
-from easyedit.TabBar import TabBar
+from AboutDialog import AboutDialog
+from MenuBar import MenuBar
+from TabBar import TabBar
 
 
 class Editor(QMainWindow):
@@ -180,15 +180,3 @@ class Editor(QMainWindow):
     @pyqtSlot(int, int)
     def updateStatusBarText(self, line, column):
         self.statusBar.showMessage("Line {}, Column {}".format(line, column))
-
-
-def main():
-    application = QApplication(sys.argv)
-
-    Editor()
-
-    sys.exit(application.exec_())
-
-
-if __name__ == '__main__':
-    main()
