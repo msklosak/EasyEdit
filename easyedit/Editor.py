@@ -116,8 +116,11 @@ class Editor(QMainWindow):
         self.tabBar.currentChanged.connect(self.tabChanged)
 
         # TEXT AREA
-        self.menuBar.changeLanguage.connect(self.tabBar.currentWidget().changeLexer)
+        self.menuBar.changeLanguage.connect(self.changeLanguage)
         # self.tabBar.currentWidget().cursorPositionChanged.connect(self.updateStatusBarText)
+
+    def changeLanguage(self, language):
+        self.tabBar.currentWidget().changeLexer(language)
 
     def changeFont(self, newFont):
         self.setFont(newFont)
@@ -151,7 +154,8 @@ class Editor(QMainWindow):
         if self.tabBar.currentWidget().filePath != "Untitled":
             fileName = self.tabBar.currentWidget().filePath
         else:
-            fileName = QFileDialog.getSaveFileName(self, "Save File", None, "Text Files (*.txt);;All Files (*)")[0]
+            print(self.tabBar.currentWidget().currentLanguage)
+            fileName = QFileDialog.getSaveFileName(self, "Save File", None, self.tabBar.currentWidget().getFileType())[0]
 
             if fileName != "":
                 shortenedFileName = split(fileName)[1]

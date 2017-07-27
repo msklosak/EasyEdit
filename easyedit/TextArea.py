@@ -37,6 +37,35 @@ class TextArea(QsciScintilla):
             'XML': QsciLexerXML
         }
 
+        self.languageToFile = {
+            None: "Text Files (*.txt);;All Files (*)",
+            'Bash': "Bash Files (*.sh);;All Files (*)",
+            'Batch': "Batch Files (*.bat);;All Files (*)",
+            'CMake': "CMake Files (*.txt);;All Files (*)",
+            'CoffeeScript': "CoffeeScript Files (*.coffee);;All Files (*)",
+            'C++': "C++ Source Files (*.c *.cpp *.cxx);;C++ Header Files (*.h *.hpp *.hxx)All Files (*)",
+            'C#': "C# Files (*.cs);;All Files (*)",
+            'CSS': "CSS Files (*.css);;All Files (*)",
+            'D': "D Files (*.d);;All Files (*)",
+            'Fortran': "Fortran Files (*.f);;All Files (*)",
+            'HTML': "HTML Files (*.html);;All Files (*)",
+            'Java': "Java Files (*.java);;All Files (*)",
+            'JavaScript': "JavaScript Files (*.js);;All Files (*)",
+            'JSON': "JSON Files (*.json);;All Files (*)",
+            'Lua': "Lua Files (*.lua);;All Files (*)",
+            'Makefile': "All Files (*)",
+            'Markdown': "Markdown Files (*.md);;All Files (*)",
+            'Matlab': "Matlab Files (*.mlx);;All Files (*)",
+            'Pascal': "Pascal Files (*.pas);;All Files (*)",
+            'Perl': "Perl Files (*.pl);;All Files (*)",
+            'Python': "Python Files (*.py);;All Files (*)",
+            'Ruby': "Ruby Files (*.rb);;All Files (*)",
+            'SQL': "SQL Files (*.sql);;All Files (*)",
+            'TeX': "TeX Files (*.txt);;All Files (*)",
+            'YAML': "YAML Files (*.yaml);;All Files (*)",
+            'XML': "XML Files (*.xml);;All Files (*)"
+        }
+
         self.filePath = "Untitled"
         self.currentLanguage = None
         self.setMargins(1)
@@ -46,6 +75,9 @@ class TextArea(QsciScintilla):
         self.setTabWidth(4)
         self.setIndentationGuides(False)
         self.setAutoIndent(True)
+
+    def getFileType(self):
+        return self.languageToFile.get(self.currentLanguage)
 
     def changeLexer(self, lexer):
         if lexer is not None:
