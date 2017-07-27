@@ -1,8 +1,7 @@
-import sys
 from os.path import split
 
 from PyQt5.QtCore import QSettings, QPoint, QSize, pyqtSlot
-from PyQt5.QtWidgets import QApplication, QFileDialog, QFontDialog, QMainWindow
+from PyQt5.QtWidgets import QFileDialog, QFontDialog, QMainWindow
 
 from .AboutDialog import AboutDialog
 from .MenuBar import MenuBar
