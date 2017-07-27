@@ -55,13 +55,15 @@ class Editor(QMainWindow):
         settings.beginGroup("Tab Bar")
 
         savedTabs = settings.value("openedTabs")
+        tabLexers = settings.value("tabLexers")
         if savedTabs is None:
             self.tabBar.openTab()
         else:
-            for fileName in savedTabs:
-                if fileName != "Untitled":
+            for i in range(len(savedTabs)):
+                if savedTabs[i] != "Untitled":
                     self.tabBar.openTab()
-                    self.openFile(fileName)
+                    self.openFile(savedTabs[i])
+                    self.tabBar.widget(i).changeLexer(tabLexers[i])
 
         self.tabBar.setCurrentIndex(int(settings.value("currentTab", 0)))
 
@@ -71,13 +73,16 @@ class Editor(QMainWindow):
 
     def writeTabBarSettings(self):
         openTabs = []
+        tabLexers = []
 
         for i in range(self.tabBar.count()):
             openTabs.append(self.tabBar.widget(i).filePath)
+            tabLexers.append(self.tabBar.widget(i).currentLanguage)
 
         settings = QSettings("msklosak", "EasyEdit")
         settings.beginGroup("Tab Bar")
         settings.setValue("openedTabs", openTabs)
+        settings.setValue("tabLexers", tabLexers)
         settings.setValue("currentTab", self.tabBar.currentIndex())
         settings.endGroup()
 
@@ -112,6 +117,7 @@ class Editor(QMainWindow):
         self.tabBar.currentChanged.connect(self.tabChanged)
 
         # TEXT AREA
+        self.menuBar.changeLanguage.connect(self.tabBar.currentWidget().changeLexer)
         # self.tabBar.currentWidget().cursorPositionChanged.connect(self.updateStatusBarText)
 
     def changeFont(self, newFont):
@@ -159,6 +165,8 @@ class Editor(QMainWindow):
 
             with open(fileName, 'w') as file:
                 file.write(text)
+
+        self.changeFont(self.font())
 
     def tabChanged(self):
         if self.tabBar.count() > 1:
