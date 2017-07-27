@@ -1,6 +1,6 @@
 import sys
 
-from Editor import Editor
+from easyedit.Editor import Editor
 from PyQt5.QtWidgets import QApplication
 
 

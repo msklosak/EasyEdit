@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QTabWidget
 
-from TextArea import TextArea
+from .TextArea import TextArea
 
 
 class TabBar(QTabWidget):
