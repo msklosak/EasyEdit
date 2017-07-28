@@ -55,7 +55,7 @@ class Editor(QMainWindow):
 
         savedTabs = settings.value("openedTabs")
         tabLexers = settings.value("tabLexers")
-        if savedTabs is None:
+        if savedTabs is None or savedTabs[0] == "Untitled":
             self.tabBar.openTab()
         else:
             for i in range(len(savedTabs)):
