@@ -121,6 +121,7 @@ class Editor(QMainWindow):
 
     def changeLanguage(self, language):
         self.tabBar.currentWidget().changeLexer(language)
+        self.changeFont(self.font())
 
     def changeFont(self, newFont):
         self.setFont(newFont)
