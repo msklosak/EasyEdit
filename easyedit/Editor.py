@@ -11,6 +11,39 @@ from .TabBar import TabBar
 class Editor(QMainWindow):
     def __init__(self):
         super().__init__()
+
+        self.fileToLanguage = {
+            "": None,
+            "txt": None,
+            "sh": 'Bash',
+            "bat": 'Batch',
+            "coffee": 'CoffeeScript',
+            "c": 'C//C++',
+            "cpp": 'C//C++',
+            "cxx": 'C//C++',
+            "h": 'C//C++',
+            "hpp": 'C//C++',
+            "hxx": 'C/C++',
+            "cs": 'C#',
+            "css": 'CSS',
+            "d": 'D',
+            "f": 'Fortran',
+            "html": 'HTML',
+            "java": 'Java',
+            "js": 'JavaScript',
+            "json": 'JSON',
+            "lua": 'Lua',
+            "md": 'Markdown',
+            "mlx": 'Matlab',
+            "pas": 'Pascal',
+            "pl": 'Perl',
+            "py": 'Python',
+            "rb": 'Ruby',
+            "sql": 'SQL',
+            "yaml": 'YAML',
+            "xml": 'XML'
+        }
+
         self.readWindowSettings()
 
         self.aboutDialog = AboutDialog()
@@ -139,6 +172,14 @@ class Editor(QMainWindow):
             self.tabBar.currentWidget().setText(file.read())
 
         shortenedFileName = split(fileName)[1]
+        extension = shortenedFileName.split('.')
+
+        # Get the programming language of the file based on the
+        # extension and set the syntax highlight to that language
+        language = self.fileToLanguage.get(extension[1])
+
+        if language:
+            self.changeLanguage(language)
 
         self.tabBar.currentWidget().filePath = fileName
         self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
