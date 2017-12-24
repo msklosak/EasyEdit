@@ -44,7 +44,7 @@ class TextArea(QsciScintilla):
             'Batch': "Batch Files (*.bat);;All Files (*)",
             'CMake': "CMake Files (*.txt);;All Files (*)",
             'CoffeeScript': "CoffeeScript Files (*.coffee);;All Files (*)",
-            'C++': "C/C++ Source Files (*.c *.cpp *.cxx);;C/C++ Header Files (*.h *.hpp *.hxx)All Files (*)",
+            'C++': "C/C++ Source Files (*.c *.cpp *.cxx);;C/C++ Header Files (*.h *.hpp *.hxx);;All Files (*)",
             'C#': "C# Files (*.cs);;All Files (*)",
             'CSS': "CSS Files (*.css);;All Files (*)",
             'D': "D Files (*.d);;All Files (*)",
