@@ -35,6 +35,9 @@ python -m easyedit.Editor
  * <kbd>Ctrl</kbd> + <kbd>S</kbd>
    > Save File
 
+ * <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>
+   > Save File As
+
  * <kbd>Ctrl</kbd> + <kbd>Q</kbd>
    > Quit
 
