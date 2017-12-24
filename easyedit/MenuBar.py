@@ -64,6 +64,7 @@ class MenuBar(QMenuBar):
         self.fileMenu.addAction(newFileAction)
         self.fileMenu.addAction(openFileAction)
         self.fileMenu.addAction(saveFileAction)
+        self.fileMenu.addAction(saveFileAsAction)
         self.fileMenu.addAction(quitAction)
 
     def createEditMenu(self):
