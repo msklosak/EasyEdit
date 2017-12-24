@@ -77,6 +77,11 @@ class TextArea(QsciScintilla):
         self.setIndentationGuides(False)
         self.setAutoIndent(True)
 
+        # Hide the horizontal scrollbar until I can figure out
+        # how to not make it extend super long even though
+        # the length of the longest line is short
+        self.SendScintilla(QsciScintilla.SCI_SETHSCROLLBAR, 0)
+
     def getFileType(self):
         return self.languageToFile.get(self.currentLanguage)
 
