@@ -97,3 +97,5 @@ class TextArea(QsciScintilla):
     def updateFont(self, newFont):
         if self.currentLanguage is not None:
             self.lexer().setFont(newFont)
+        else:
+            self.setFont(newFont)
