@@ -175,11 +175,14 @@ class Editor(QMainWindow):
         extension = shortenedFileName.split('.')
 
         # Get the programming language of the file based on the
-        # extension and set the syntax highlight to that language
-        language = self.fileToLanguage.get(extension[1])
+        # extension and set the syntax highlight to that language.
+        # If no extension, load default lexer.
+        if len(extension) == 2:
+            language = self.fileToLanguage.get(extension[1])
 
-        if language:
             self.changeLanguage(language)
+        else:
+            self.changeLanguage(None)
 
         self.tabBar.currentWidget().filePath = fileName
         self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
@@ -195,27 +198,32 @@ class Editor(QMainWindow):
     def saveFile(self):
         if self.tabBar.currentWidget().filePath != "Untitled":
             fileName = self.tabBar.currentWidget().filePath
+
+            if fileName != "":
+                text = self.tabBar.currentWidget().text()
+
+                with open(fileName, 'w') as file:
+                    file.write(text)
+
+            self.changeFont(self.font())
         else:
             self.saveFileAs()
 
-        if fileName != "":
-            text = self.tabBar.currentWidget().text()
-
-            with open(fileName, 'w') as file:
-                file.write(text)
-
-        self.changeFont(self.font())
-
     def saveFileAs(self):
         fileName = QFileDialog.getSaveFileName(self, "Save File", None, self.tabBar.currentWidget().getFileType())[0]
-
-        print(fileName)
 
         if fileName != "":
             shortenedFileName = split(fileName)[1]
 
             self.tabBar.setTabText(self.tabBar.currentIndex(), shortenedFileName)
             self.updateWindowTitle()
+
+            text = self.tabBar.currentWidget().text()
+
+            with open(fileName, 'w') as file:
+                file.write(text)
+
+        self.changeFont(self.font())
 
     def tabChanged(self):
         if self.tabBar.count() > 1:

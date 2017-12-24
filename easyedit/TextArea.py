@@ -10,6 +10,7 @@ class TextArea(QsciScintilla):
         super().__init__()
 
         self.languageToLexer = {
+            None: None,
             'Bash': QsciLexerBash,
             'Batch': QsciLexerBatch,
             'CMake': QsciLexerCMake,
@@ -82,8 +83,11 @@ class TextArea(QsciScintilla):
     def changeLexer(self, lexer):
         if lexer is not None:
             newLexer = self.languageToLexer.get(lexer)(self)
-            self.setLexer(newLexer)
-            self.currentLanguage = lexer
+        else:
+            newLexer = lexer
+
+        self.setLexer(newLexer)
+        self.currentLanguage = lexer
 
     def changeMarginWidth(self):
         numLines = self.lines()
